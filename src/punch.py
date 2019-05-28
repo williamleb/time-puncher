@@ -5,6 +5,13 @@ import os
 
 TIME_PUNCHER_DIR_NAME = '.time-puncher'
 
+MINUTES_TO_HOURS = 1 / 60
+HOURS_TO_MINUTES = 60
+
+
+class HourFormatError(ValueError):
+    pass
+
 
 def init():
     make_time_puncher_dir()
@@ -53,7 +60,28 @@ def save_times(output_file):
 
 
 def add_time(time_to_add):
-    print("Adding time: {}".format(time_to_add))  # TODO
+    """
+    :type time_to_add: str
+    """
+
+    print("Adding time: {}".format(parse_time(time_to_add)))  # TODO
+
+
+def parse_time(time_to_parse):
+    """
+    :type time_to_parse: str
+    :rtype: float
+    """
+    try:
+        # If the time is expressed as HH:MM
+        hours, minutes = time_to_parse.split(':')
+        return int(hours) + int(minutes) * MINUTES_TO_HOURS
+    except ValueError:
+        try:
+            # If the time is expressed as hours with a decimal value.
+            return float(time_to_parse)
+        except ValueError as e:
+            raise HourFormatError(e)
 
 
 if __name__ == '__main__':
