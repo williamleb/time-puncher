@@ -87,6 +87,18 @@ def save_times(output_file):
     if len(times) == 1:
         log_err("The time {} is not in pair and thus will be ignored.".format(times[0]))
 
+    with open(os.path.join(BACKUP_DIR, "test.txt"), 'w') as output:
+        working_times = [time_ended_working - time_started_working
+                         for time_started_working, time_ended_working in working_time_spans]
+        total_time = sum(working_times)
+
+        for time in read_cached_times():
+            output.write("{}\n".format(format_time(time)))
+        output.write("------------------------\n")
+        output.write("Total time: {}".format(format_time(total_time)))
+
+    clear_cache()
+
 
 def clear_cache():
     open(CACHE_PATH, 'w').close()
@@ -137,7 +149,7 @@ def format_time(time_to_format):
     :rtype: str
     """
     hours = int(time_to_format)
-    minutes = (time_to_format - hours) * HOURS_TO_MINUTES
+    minutes = int((time_to_format - hours) * HOURS_TO_MINUTES)
 
     return "{}:{}".format(hours, minutes)
 
