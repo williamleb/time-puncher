@@ -22,7 +22,7 @@ def run():
 
     if verify_args(args):
         if args.save:
-            save_times("Yo.txt")
+            save_times("Yo.txt")  # TODO
         else:
             add_time(args.time)
     else:
@@ -32,7 +32,10 @@ def run():
 def parse_args():
     parser = argparse.ArgumentParser(description="To add")
 
-    parser.add_argument('-s, --save', dest='save', action='store_true')
+    # TODO: Add parameters -> Output, Auto-Yes, Keep-Times
+    parser.add_argument('-s, --save', dest='save', action='store_true',
+                        help="Use this flag to save the currently stored times. It also erases every stored times.")
+
     parser.add_argument('time', nargs='?')
 
     return parser.parse_args()
