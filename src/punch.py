@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 import argparse
 import os
+import sys
 import datetime
-from enum import Enum
+import pkgutil
+
+import src.punch_modules
+from src.utils.log_utils import log_info, log_err, log_warn
 
 
 TIME_PUNCHER_DIR_NAME = '.time-puncher'
@@ -15,13 +19,6 @@ BACKUP_DIR = os.path.join(TIME_PUNCHER_DIR, BACKUP_DIR_NAME)
 
 MINUTES_TO_HOURS = 1 / 60
 HOURS_TO_MINUTES = 60
-
-
-class ConsoleColor:
-    GREEN = '\033[92m'
-    RED = '\033[91m'
-    YELLOW = '\033[93m'
-    END = '\033[0m'
 
 
 class HourFormatError(ValueError):
@@ -43,12 +40,14 @@ def make_backup_dir():
         os.mkdir(BACKUP_DIR)
 
 
-def run():
+def run_prev():
     args = parse_args()
 
     if verify_args(args):
         if args.save:
             save_times("Yo.txt")  # TODO
+        elif args.print:
+            log_info("Current total time: {}".format(format_time(compute_total_time_in_cache())))
         else:
             add_time(args.time)
     else:
@@ -62,35 +61,20 @@ def parse_args():
     parser.add_argument('-s, --save', dest='save', action='store_true',
                         help="Use this flag to save the currently stored times. It also erases every stored times.")
 
+    parser.add_argument('-p, --print', dest='print', action='store_true',
+                        help="Use this flag to print the current total time.")
+
     parser.add_argument('time', nargs='?',
                         help="Time to add in cache.")
 
     return parser.parse_args()
 
 
-def verify_args(args):
-    if not args.time and not args.save:
-        return False
-
-    return True  # TODO
-
-
 def save_times(output_file):
     print("Saving file at {}".format(output_file))  # TODO
 
-    times = read_cached_times()
-
-    working_time_spans = []
-    while len(times) > 1:
-        working_time_spans.append((times.pop(0), times.pop(0)))
-
-    if len(times) == 1:
-        log_err("The time {} is not in pair and thus will be ignored.".format(times[0]))
-
     with open(os.path.join(BACKUP_DIR, "test.txt"), 'w') as output:
-        working_times = [time_ended_working - time_started_working
-                         for time_started_working, time_ended_working in working_time_spans]
-        total_time = sum(working_times)
+        total_time = compute_total_time_in_cache()
 
         for time in read_cached_times():
             output.write("{}\n".format(format_time(time)))
@@ -98,6 +82,22 @@ def save_times(output_file):
         output.write("Total time: {}".format(format_time(total_time)))
 
     clear_cache()
+
+
+def compute_total_time_in_cache():
+    times = read_cached_times()
+
+    working_time_spans = []
+    while len(times) > 1:
+        working_time_spans.append((times.pop(0), times.pop(0)))
+
+    if len(times) == 1:
+        log_warn("The time {} is not in pair and thus will be ignored.".format(format_time(times[0])))
+
+    working_times = [time_ended_working - time_started_working
+                     for time_started_working, time_ended_working in working_time_spans]
+
+    return sum(working_times)
 
 
 def clear_cache():
@@ -154,27 +154,41 @@ def format_time(time_to_format):
     return "{}:{}".format(hours, minutes)
 
 
-def log_info(str):
+def get_all_punch_modules():
     """
-    :type str: str
+    :rtype: dict of (str, function)
+    :raise RunNotImplementedError: Whenever a module that doesn't implement the function "run" is found in the
+                                   package "punch_modules".
     """
-    print("{}{}{}".format(ConsoleColor.GREEN, str, ConsoleColor.END))
+    punch_modules = dict()
+
+    try:
+
+        for importer, punch_module_name, is_package in pkgutil.iter_modules(src.punch_modules.__path__):
+            punch_module = importer.find_module(punch_module_name).load_module(punch_module_name)
+
+            punch_modules[punch_module_name] = punch_module.run
+
+    except AttributeError as e:
+        log_err("A module for the punch command is not implemented correctly.")  # TODO: Better error message
+
+    return punch_modules
 
 
-def log_err(str):
-    """
-    :type str: str
-    """
-    print("{}{}{}".format(ConsoleColor.RED, str, ConsoleColor.END))
+def run():
+    if not verify_args():
+        exit(1)
 
 
-def log_warn(str):
-    """
-    :type str: str
-    """
-    print("{}{}{}".format(ConsoleColor.YELLOW, str, ConsoleColor.END))
+def verify_args():
+    if len(sys.argv) <= 1:
+        log_err("TODO: Write this error")  # TODO
+        return False
+
+    # if
 
 
 if __name__ == '__main__':
     init()
-    run()
+    get_all_punch_modules()
+    # run_prev()

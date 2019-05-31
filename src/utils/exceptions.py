@@ -1,0 +1,2 @@
+class RunNotImplementedError(AttributeError):
+    pass
