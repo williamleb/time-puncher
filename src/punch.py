@@ -6,23 +6,15 @@ import datetime
 import pkgutil
 
 import src.punch_modules
+from src.utils.errors import RunNotImplementedError
 from src.utils.log_utils import log_info, log_err, log_warn
-
+from src.utils.time_utils import format_time, parse_time
 
 TIME_PUNCHER_DIR_NAME = '.time-puncher'
-TIME_PUNCHER_CACHE_FILE_NAME = 'time-cache'
 BACKUP_DIR_NAME = 'backups'
 
 TIME_PUNCHER_DIR = os.path.join(os.environ['HOME'], TIME_PUNCHER_DIR_NAME)
-CACHE_PATH = os.path.join(os.environ['HOME'], TIME_PUNCHER_DIR_NAME, TIME_PUNCHER_CACHE_FILE_NAME)
 BACKUP_DIR = os.path.join(TIME_PUNCHER_DIR, BACKUP_DIR_NAME)
-
-MINUTES_TO_HOURS = 1 / 60
-HOURS_TO_MINUTES = 60
-
-
-class HourFormatError(ValueError):
-    pass
 
 
 def init():
@@ -43,13 +35,11 @@ def make_backup_dir():
 def run_prev():
     args = parse_args()
 
-    if verify_args(args):
+    if verify_args(dict()):
         if args.save:
             save_times("Yo.txt")  # TODO
         elif args.print:
             log_info("Current total time: {}".format(format_time(compute_total_time_in_cache())))
-        else:
-            add_time(args.time)
     else:
         print("Invalid args")
 
@@ -104,54 +94,21 @@ def clear_cache():
     open(CACHE_PATH, 'w').close()
 
 
-def add_time(time_to_add):
-    """
-    :type time_to_add: str
-    """
-    times = read_cached_times()
-    with open(CACHE_PATH, 'w') as cache:
-        times.append(parse_time(time_to_add))
-        cache.writelines(["{}\n".format(time) for time in sorted(times)])
-
-    log_info("Added time {} to the cache.".format(time_to_add))
 
 
-def read_cached_times():
+
+def run():
+
+    punch_modules = dict()
     try:
-        with open(CACHE_PATH, 'r') as cache:
-            times = [parse_time(time) for time in cache.readlines()]  # TODO Manage error
+        punch_modules = get_all_punch_modules()
+    except RunNotImplementedError:
+        exit(1)
 
-        return times
-    except FileNotFoundError:
-        return []
+    if not verify_args(punch_modules):
+        exit(1)
 
-
-def parse_time(time_to_parse):
-    """
-    :type time_to_parse: str
-    :rtype: float
-    """
-    try:
-        # If the time is expressed as HH:MM
-        hours, minutes = time_to_parse.split(':')
-        return int(hours) + int(minutes) * MINUTES_TO_HOURS
-    except ValueError:
-        try:
-            # If the time is expressed as hours with a decimal value.
-            return float(time_to_parse)
-        except ValueError as e:
-            raise HourFormatError(e)
-
-
-def format_time(time_to_format):
-    """
-    :type time_to_format: float
-    :rtype: str
-    """
-    hours = int(time_to_format)
-    minutes = int((time_to_format - hours) * HOURS_TO_MINUTES)
-
-    return "{}:{}".format(hours, minutes)
+    punch_modules[sys.argv.pop(1)]()
 
 
 def get_all_punch_modules():
@@ -171,24 +128,26 @@ def get_all_punch_modules():
 
     except AttributeError as e:
         log_err("A module for the punch command is not implemented correctly.")  # TODO: Better error message
+        raise RunNotImplementedError(e)
 
     return punch_modules
 
 
-def run():
-    if not verify_args():
-        exit(1)
-
-
-def verify_args():
+def verify_args(punch_modules):
+    """
+    :type punch_modules: dict of (str, function)
+    """
     if len(sys.argv) <= 1:
-        log_err("TODO: Write this error")  # TODO
+        log_err("TODO: Write this error (not enough args")  # TODO
         return False
 
-    # if
+    if sys.argv[1] not in punch_modules:
+        log_err("TODO Not in blablabla")  # TODO
+        return False
+
+    return True
 
 
 if __name__ == '__main__':
     init()
-    get_all_punch_modules()
-    # run_prev()
+    run()
