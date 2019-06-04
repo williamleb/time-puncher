@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b81aa675-eb3e-4936-846a-55b46f69cfaf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/punch.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/punch.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/punch_modules/add.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/punch_modules/add.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/cache_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/cache_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/errors.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/time_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/time_utils.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,20 +19,11 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/punch.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="15">
+                <state relative-caret-position="420">
                   <caret line="37" column="24" selection-start-line="37" selection-start-column="24" selection-end-line="37" selection-end-column="24" />
                   <folding>
                     <element signature="e#23#38#0" expanded="true" />
                   </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/utils/cache_utils.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="30">
-                  <caret line="2" column="69" selection-start-line="2" selection-start-column="69" selection-end-line="2" selection-end-column="69" />
                 </state>
               </provider>
             </entry>
@@ -49,20 +37,20 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/utils/time_utils.py">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/punch_modules/add.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="300">
-                  <caret line="20" column="25" lean-forward="true" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+                <state relative-caret-position="585">
+                  <caret line="44" column="4" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="4" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/punch_modules/add.py">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/utils/time_utils.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="45">
-                  <caret line="7" selection-start-line="7" selection-end-line="8" selection-end-column="4" />
+                <state relative-caret-position="360">
+                  <caret line="24" column="7" selection-start-line="24" selection-start-column="7" selection-end-line="24" selection-end-column="7" />
                 </state>
               </provider>
             </entry>
@@ -109,15 +97,12 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/punch_modules/add.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="409">
-                  <caret line="33" column="87" selection-start-line="33" selection-start-column="87" selection-end-line="33" selection-end-column="87" />
-                  <folding>
-                    <element signature="e#0#15#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="240">
+                  <caret line="21" column="53" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
                 </state>
               </provider>
             </entry>
@@ -162,8 +147,8 @@
         <option value="$PROJECT_DIR$/src/punch_modules/time.py" />
         <option value="$PROJECT_DIR$/src/utils/exceptions.py" />
         <option value="$PROJECT_DIR$/src/utils/errors.py" />
-        <option value="$PROJECT_DIR$/src/utils/cache_utils.py" />
         <option value="$PROJECT_DIR$/src/punch.py" />
+        <option value="$PROJECT_DIR$/src/utils/cache_utils.py" />
         <option value="$PROJECT_DIR$/src/utils/time_utils.py" />
         <option value="$PROJECT_DIR$/src/punch_modules/add.py" />
       </list>
@@ -245,7 +230,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/punch.py" />
-      <option name="PARAMETERS" value="11:15" />
+      <option name="PARAMETERS" value="add 9:50" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -272,7 +257,9 @@
       <workItem from="1559236030802" duration="1277000" />
       <workItem from="1559248407192" duration="418000" />
       <workItem from="1559309311270" duration="597000" />
-      <workItem from="1559321224811" duration="6751000" />
+      <workItem from="1559321224811" duration="6983000" />
+      <workItem from="1559595092343" duration="916000" />
+      <workItem from="1559652943985" duration="76000" />
     </task>
     <task id="LOCAL-00001" summary="Parsing save and time arguments (logic not implemented)">
       <created>1558992216391</created>
@@ -309,22 +296,29 @@
       <option name="project" value="LOCAL" />
       <updated>1559334902331</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="- Moving methods in relation with utilities to their respective utility files (WIP).&#10;- Moving methods in relation with the add punch module to the module.&#10;- Moving HourFormatError to /utils/errors.py&#10;- Adding TODOs :|">
+      <created>1559337137814</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1559337137814</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9043000" />
+    <option name="totallyTimeSpent" value="10267000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1053" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18943436" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19370331" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32975295" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32975295" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32975295" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39957035" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -362,7 +356,8 @@
     <MESSAGE value="Now, we can add a time to the cache." />
     <MESSAGE value="- Implementing a structure for punch modules.&#10;- Isolating log methods in log_utils.py.&#10;- Creating the RunNotImplementedError.&#10;- In punch.py, creating a dict of all punch modules with their run method as a key. This will be used to call the right punch_module" />
     <MESSAGE value="- Implementing a structure for punch modules.&#10;- Isolating log methods in log_utils.py.&#10;- Creating the RunNotImplementedError.&#10;- In punch.py, creating a dict of all punch modules with their run method as a key. This will be used to call the right punch_module&#10;- Updating the .gitignore file to include Jetbrain IDE files" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Implementing a structure for punch modules.&#10;- Isolating log methods in log_utils.py.&#10;- Creating the RunNotImplementedError.&#10;- In punch.py, creating a dict of all punch modules with their run method as a key. This will be used to call the right punch_module&#10;- Updating the .gitignore file to include Jetbrain IDE files" />
+    <MESSAGE value="- Moving methods in relation with utilities to their respective utility files (WIP).&#10;- Moving methods in relation with the add punch module to the module.&#10;- Moving HourFormatError to /utils/errors.py&#10;- Adding TODOs :|" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Moving methods in relation with utilities to their respective utility files (WIP).&#10;- Moving methods in relation with the add punch module to the module.&#10;- Moving HourFormatError to /utils/errors.py&#10;- Adding TODOs :|" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -383,7 +378,7 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/time_puncher$punch.coverage" NAME="punch Coverage Results" MODIFIED="1559335716229" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/time_puncher$punch.coverage" NAME="punch Coverage Results" MODIFIED="1559595748151" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
@@ -400,27 +395,34 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor>
-            <caret column="22" selection-start-column="22" selection-end-column="22" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/punch.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/log_utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/cache_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="59" lean-forward="true" selection-start-line="2" selection-start-column="59" selection-end-line="2" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/punch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="37" column="24" selection-start-line="37" selection-start-column="24" selection-end-line="37" selection-end-column="24" />
+          <folding>
+            <element signature="e#23#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/errors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
         </state>
       </provider>
     </entry>
@@ -438,44 +440,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/errors.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret column="22" selection-start-column="22" selection-end-column="22" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/cache_utils.py">
+    <entry file="file://$PROJECT_DIR$/punch.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="69" selection-start-line="2" selection-start-column="69" selection-end-line="2" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/punch.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="37" column="24" selection-start-line="37" selection-start-column="24" selection-end-line="37" selection-end-column="24" />
-          <folding>
-            <element signature="e#23#38#0" expanded="true" />
-          </folding>
+        <state>
+          <caret selection-end-line="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/time_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="25" lean-forward="true" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+        <state relative-caret-position="360">
+          <caret line="24" column="7" selection-start-line="24" selection-start-column="7" selection-end-line="24" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/punch_modules/add.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="33" column="87" selection-start-line="33" selection-start-column="87" selection-end-line="33" selection-end-column="87" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="240">
+          <caret line="21" column="53" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
         </state>
       </provider>
     </entry>
