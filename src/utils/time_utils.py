@@ -29,4 +29,4 @@ def format_time(time_to_format):
     hours = int(time_to_format)
     minutes = int((time_to_format - hours) * _HOURS_TO_MINUTES)
 
-    return "{}:{}".format(hours, minutes)
+    return "{}:{}".format("{:02d}".format(hours), "{:02d}".format(minutes))
