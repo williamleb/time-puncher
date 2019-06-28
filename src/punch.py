@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 import os
-import pkgutil
 import sys
 
-import src.punch_modules
-from src.utils.errors import RunNotImplementedError
+from src.punch_modules import time
+from src.utils.errors import RunNotImplementedError, HourFormatError
 from src.utils.log_utils import log_err
+from src.utils.modules_utils import get_all_punch_modules
+from src.utils.time_utils import parse_time
 
 TIME_PUNCHER_DIR_NAME = '.time-puncher'
 BACKUP_DIR_NAME = 'backups'
@@ -30,6 +31,9 @@ def make_backup_dir():
 
 
 def run():
+    if _first_argument_is_time():
+        time.run()
+        exit(0)
 
     punch_modules = dict()
     try:
@@ -37,44 +41,43 @@ def run():
     except RunNotImplementedError:
         exit(1)
 
-    if not verify_args(punch_modules):
+    if not _verify_args(punch_modules):
         exit(1)
 
     punch_modules[sys.argv.pop(1)]()
 
 
-def get_all_punch_modules():
+def _first_argument_is_time():
     """
-    :rtype: dict of (str, function)
-    :raise RunNotImplementedError: Whenever a module that doesn't implement the function "run" is found in the
-                                   package "punch_modules".
+    :rtype: bool
     """
-    punch_modules = dict()
 
+    # If no argument is given, the first argument can't be a time.
+    if len(sys.argv) <= 1:
+        return False
+
+    # If the time parsing works on the first argument, it means it's a time.
     try:
-
-        for importer, punch_module_name, is_package in pkgutil.iter_modules(src.punch_modules.__path__):
-            punch_module = importer.find_module(punch_module_name).load_module(punch_module_name)
-
-            punch_modules[punch_module_name] = punch_module.run
-
-    except AttributeError as e:
-        log_err("A module for the punch command is not implemented correctly.")  # TODO: Better error message
-        raise RunNotImplementedError(e)
-
-    return punch_modules
+        parse_time(sys.argv[1])
+    except HourFormatError:
+        return False
+    else:
+        return True
 
 
-def verify_args(punch_modules):
+def _verify_args(punch_modules):
     """
     :type punch_modules: dict of (str, function)
     """
+
     if len(sys.argv) <= 1:
-        log_err("TODO: Write this error (not enough args")  # TODO
+        log_err("The 'punch' command takes at least one argument.")
         return False
 
     if sys.argv[1] not in punch_modules:
-        log_err("TODO Not in blablabla")  # TODO
+        log_err(
+            "The punch module '{}' does not exist. Use 'punch modules' to get the list of all available modules.".format(
+                sys.argv[1]))
         return False
 
     return True
