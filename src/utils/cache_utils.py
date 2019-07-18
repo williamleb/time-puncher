@@ -5,7 +5,7 @@ from src.utils.errors import HourFormatError
 from src.utils.log_utils import log_warn, log_err
 from src.utils.time_utils import parse_time, format_time, get_current_time
 
-_TIME_PUNCHER_CACHE_FILE_NAME = 'time-cache-lol'
+_TIME_PUNCHER_CACHE_FILE_NAME = 'time-cache'
 
 _CACHE_PATH = os.path.join(os.environ['HOME'], TIME_PUNCHER_DIR_NAME, _TIME_PUNCHER_CACHE_FILE_NAME)
 
