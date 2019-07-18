@@ -1,7 +1,8 @@
 import os
 
-from src.punch import TIME_PUNCHER_DIR_NAME  # TODO Place that const in another file maybe
-from src.utils.log_utils import log_warn
+from src.utils.config import TIME_PUNCHER_DIR_NAME
+from src.utils.errors import HourFormatError
+from src.utils.log_utils import log_warn, log_err
 from src.utils.time_utils import parse_time, format_time
 
 _TIME_PUNCHER_CACHE_FILE_NAME = 'time-cache-lol'
@@ -15,7 +16,12 @@ def read_cached_times():
     """
     try:
         with open(_CACHE_PATH, 'r') as cache:
-            times = [parse_time(time) for time in cache.readlines()]  # TODO Manage error
+            try:
+                times = [parse_time(time) for time in cache.readlines()]
+            except HourFormatError:
+                log_err("There was a problem while reading the time cache. Maybe it was modified by hand? Try deleting"
+                        "the file {}.".format(_CACHE_PATH))
+                return []
 
         return times
     except FileNotFoundError:

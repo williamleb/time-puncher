@@ -7,12 +7,7 @@ from src.utils.errors import RunNotImplementedError, HourFormatError
 from src.utils.log_utils import log_err
 from src.utils.modules_utils import get_all_punch_modules
 from src.utils.time_utils import parse_time
-
-TIME_PUNCHER_DIR_NAME = '.time-puncher'
-BACKUP_DIR_NAME = 'backups'
-
-TIME_PUNCHER_DIR = os.path.join(os.environ['HOME'], TIME_PUNCHER_DIR_NAME)
-BACKUP_DIR = os.path.join(TIME_PUNCHER_DIR, BACKUP_DIR_NAME)
+from src.utils.config import TIME_PUNCHER_DIR, BACKUP_DIR
 
 
 def init():
