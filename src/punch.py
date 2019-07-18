@@ -1,31 +1,13 @@
 #!/usr/bin/env python3
-import argparse
 import os
-import datetime
-from enum import Enum
+import sys
 
-
-TIME_PUNCHER_DIR_NAME = '.time-puncher'
-TIME_PUNCHER_CACHE_FILE_NAME = 'time-cache'
-BACKUP_DIR_NAME = 'backups'
-
-TIME_PUNCHER_DIR = os.path.join(os.environ['HOME'], TIME_PUNCHER_DIR_NAME)
-CACHE_PATH = os.path.join(os.environ['HOME'], TIME_PUNCHER_DIR_NAME, TIME_PUNCHER_CACHE_FILE_NAME)
-BACKUP_DIR = os.path.join(TIME_PUNCHER_DIR, BACKUP_DIR_NAME)
-
-MINUTES_TO_HOURS = 1 / 60
-HOURS_TO_MINUTES = 60
-
-
-class ConsoleColor:
-    GREEN = '\033[92m'
-    RED = '\033[91m'
-    YELLOW = '\033[93m'
-    END = '\033[0m'
-
-
-class HourFormatError(ValueError):
-    pass
+from src.punch_modules import add
+from src.utils.config import TIME_PUNCHER_DIR, BACKUP_DIR
+from src.utils.errors import RunNotImplementedError, HourFormatError
+from src.utils.log_utils import log_err
+from src.utils.modules_utils import get_all_punch_modules
+from src.utils.time_utils import parse_time, get_current_time
 
 
 def init():
@@ -44,135 +26,63 @@ def make_backup_dir():
 
 
 def run():
-    args = parse_args()
+    # If no argument is given, we punch the current local time.
+    if len(sys.argv) <= 1:
+        sys.argv.append(get_current_time())
+        add.run()
+        exit(0)
 
-    if verify_args(args):
-        if args.save:
-            save_times("Yo.txt")  # TODO
-        else:
-            add_time(args.time)
-    else:
-        print("Invalid args")
+    # If the first argument given is a time, we punch it.
+    if _first_argument_is_time():
+        add.run()
+        exit(0)
+
+    punch_modules = dict()
+    try:
+        punch_modules = get_all_punch_modules()
+    except RunNotImplementedError:
+        exit(1)
+
+    if not _verify_args(punch_modules):
+        exit(1)
+
+    punch_modules[sys.argv.pop(1)]()
 
 
-def parse_args():
-    parser = argparse.ArgumentParser(description="To add")
+def _first_argument_is_time():
+    """
+    :rtype: bool
+    """
 
-    # TODO: Add parameters -> Output, Auto-Yes, Keep-Times
-    parser.add_argument('-s, --save', dest='save', action='store_true',
-                        help="Use this flag to save the currently stored times. It also erases every stored times.")
-
-    parser.add_argument('time', nargs='?',
-                        help="Time to add in cache.")
-
-    return parser.parse_args()
-
-
-def verify_args(args):
-    if not args.time and not args.save:
+    # If no argument is given, the first argument can't be a time.
+    if len(sys.argv) <= 1:
         return False
 
-    return True  # TODO
-
-
-def save_times(output_file):
-    print("Saving file at {}".format(output_file))  # TODO
-
-    times = read_cached_times()
-
-    working_time_spans = []
-    while len(times) > 1:
-        working_time_spans.append((times.pop(0), times.pop(0)))
-
-    if len(times) == 1:
-        log_err("The time {} is not in pair and thus will be ignored.".format(times[0]))
-
-    with open(os.path.join(BACKUP_DIR, "test.txt"), 'w') as output:
-        working_times = [time_ended_working - time_started_working
-                         for time_started_working, time_ended_working in working_time_spans]
-        total_time = sum(working_times)
-
-        for time in read_cached_times():
-            output.write("{}\n".format(format_time(time)))
-        output.write("------------------------\n")
-        output.write("Total time: {}".format(format_time(total_time)))
-
-    clear_cache()
-
-
-def clear_cache():
-    open(CACHE_PATH, 'w').close()
-
-
-def add_time(time_to_add):
-    """
-    :type time_to_add: str
-    """
-    times = read_cached_times()
-    with open(CACHE_PATH, 'w') as cache:
-        times.append(parse_time(time_to_add))
-        cache.writelines(["{}\n".format(time) for time in sorted(times)])
-
-    log_info("Added time {} to the cache.".format(time_to_add))
-
-
-def read_cached_times():
+    # If the time parsing works on the first argument, it means it's a time.
     try:
-        with open(CACHE_PATH, 'r') as cache:
-            times = [parse_time(time) for time in cache.readlines()]  # TODO Manage error
+        parse_time(sys.argv[1])
+    except HourFormatError:
+        return False
+    else:
+        return True
 
-        return times
-    except FileNotFoundError:
-        return []
 
-
-def parse_time(time_to_parse):
+def _verify_args(punch_modules):
     """
-    :type time_to_parse: str
-    :rtype: float
+    :type punch_modules: dict of (str, function)
     """
-    try:
-        # If the time is expressed as HH:MM
-        hours, minutes = time_to_parse.split(':')
-        return int(hours) + int(minutes) * MINUTES_TO_HOURS
-    except ValueError:
-        try:
-            # If the time is expressed as hours with a decimal value.
-            return float(time_to_parse)
-        except ValueError as e:
-            raise HourFormatError(e)
 
+    if len(sys.argv) <= 1:
+        log_err("The 'punch' command takes at least one argument.")
+        return False
 
-def format_time(time_to_format):
-    """
-    :type time_to_format: float
-    :rtype: str
-    """
-    hours = int(time_to_format)
-    minutes = int((time_to_format - hours) * HOURS_TO_MINUTES)
+    if sys.argv[1] not in punch_modules:
+        log_err(
+            "The punch module '{}' does not exist. Use 'punch modules' to get the list of all available "
+            "modules.".format(sys.argv[1]))
+        return False
 
-    return "{}:{}".format(hours, minutes)
-
-
-def log_info(str):
-    """
-    :type str: str
-    """
-    print("{}{}{}".format(ConsoleColor.GREEN, str, ConsoleColor.END))
-
-
-def log_err(str):
-    """
-    :type str: str
-    """
-    print("{}{}{}".format(ConsoleColor.RED, str, ConsoleColor.END))
-
-
-def log_warn(str):
-    """
-    :type str: str
-    """
-    print("{}{}{}".format(ConsoleColor.YELLOW, str, ConsoleColor.END))
+    return True
 
 
 if __name__ == '__main__':
