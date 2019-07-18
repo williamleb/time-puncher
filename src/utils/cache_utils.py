@@ -3,7 +3,7 @@ import os
 from src.utils.config import TIME_PUNCHER_DIR_NAME
 from src.utils.errors import HourFormatError
 from src.utils.log_utils import log_warn, log_err
-from src.utils.time_utils import parse_time, format_time
+from src.utils.time_utils import parse_time, format_time, get_current_time
 
 _TIME_PUNCHER_CACHE_FILE_NAME = 'time-cache-lol'
 
@@ -19,7 +19,7 @@ def read_cached_times():
             try:
                 times = [parse_time(time) for time in cache.readlines()]
             except HourFormatError:
-                log_err("There was a problem while reading the time cache. Maybe it was modified by hand? Try deleting"
+                log_err("There was a problem while reading the time cache. Maybe it was modified by hand? Try deleting "
                         "the file {}.".format(_CACHE_PATH))
                 return []
 
@@ -41,7 +41,7 @@ def clear_cache():
     open(_CACHE_PATH, 'w').close()
 
 
-def compute_total_time_in_cache():
+def compute_total_time_in_cache(group_last_time_with_current_local_time=False):
     times = read_cached_times()
 
     working_time_spans = []
@@ -49,7 +49,15 @@ def compute_total_time_in_cache():
         working_time_spans.append((times.pop(0), times.pop(0)))
 
     if len(times) == 1:
-        log_warn("The time {} is not in pair and thus will be ignored.".format(format_time(times[0])))
+        if group_last_time_with_current_local_time:
+            current_time = get_current_time()
+            log_warn(
+                "The time {} is not in pair in the cache and thus will be paired with the current time ({}).".format(
+                    format_time(times[0]), current_time))
+            working_time_spans.append((times.pop(0), parse_time(current_time)))
+
+        else:
+            log_warn("The time {} is not in pair and thus will be ignored.".format(format_time(times[0])))
 
     working_times = [time_ended_working - time_started_working
                      for time_started_working, time_ended_working in working_time_spans]

@@ -2,12 +2,12 @@
 import os
 import sys
 
-from src.punch_modules import time
+from src.punch_modules import add
+from src.utils.config import TIME_PUNCHER_DIR, BACKUP_DIR
 from src.utils.errors import RunNotImplementedError, HourFormatError
 from src.utils.log_utils import log_err
 from src.utils.modules_utils import get_all_punch_modules
-from src.utils.time_utils import parse_time
-from src.utils.config import TIME_PUNCHER_DIR, BACKUP_DIR
+from src.utils.time_utils import parse_time, get_current_time
 
 
 def init():
@@ -26,8 +26,15 @@ def make_backup_dir():
 
 
 def run():
+    # If no argument is given, we punch the current local time.
+    if len(sys.argv) <= 1:
+        sys.argv.append(get_current_time())
+        add.run()
+        exit(0)
+
+    # If the first argument given is a time, we punch it.
     if _first_argument_is_time():
-        time.run()
+        add.run()
         exit(0)
 
     punch_modules = dict()
@@ -71,8 +78,8 @@ def _verify_args(punch_modules):
 
     if sys.argv[1] not in punch_modules:
         log_err(
-            "The punch module '{}' does not exist. Use 'punch modules' to get the list of all available modules.".format(
-                sys.argv[1]))
+            "The punch module '{}' does not exist. Use 'punch modules' to get the list of all available "
+            "modules.".format(sys.argv[1]))
         return False
 
     return True

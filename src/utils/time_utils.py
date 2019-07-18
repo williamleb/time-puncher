@@ -1,7 +1,11 @@
+from datetime import datetime
+
 from src.utils.errors import HourFormatError
 
 _MINUTES_TO_HOURS = 1 / 60
 _HOURS_TO_MINUTES = 60
+
+_HOUR_MIN_FORMAT = "%H:%M"
 
 
 def parse_time(time_to_parse):
@@ -30,3 +34,11 @@ def format_time(time_to_format):
     minutes = int((time_to_format - hours) * _HOURS_TO_MINUTES)
 
     return "{}:{}".format("{:02d}".format(hours), "{:02d}".format(minutes))
+
+
+def get_current_time():
+    """
+    :rtype: str
+    """
+
+    return datetime.now().strftime(_HOUR_MIN_FORMAT)
