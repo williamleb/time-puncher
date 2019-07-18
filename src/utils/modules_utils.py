@@ -21,7 +21,9 @@ def get_all_punch_modules():
             punch_modules[punch_module_name] = punch_module.run
 
     except AttributeError as e:
-        log_err("A module for the punch command is not implemented correctly.")  # TODO: Better error message
+        log_err("A module for the punch command is not implemented correctly. "
+                "Every punch module should have a function 'run' that takes 0 argument. "
+                "Maybe your installation got corrupted. Try reinstalling punch.")
         raise RunNotImplementedError(e)
 
     return punch_modules
